@@ -25,7 +25,8 @@ DEFAULT_SYMBOLS: List[str] = [
     "JPM", "BAC",                     # 금융주
     "JNJ", "PFE",                     # 헬스케어
     "TSLA", "AMZN",                   # 소비재/자동차
-    "SPY", "QQQ", "GLD"               # ETF (시장, 기술, 금)
+    "SPY", "QQQ", "GLD",              # ETF (시장, 기술, 금)
+    "ORCL"                            # 엔터프라이즈 소프트웨어
 ]
 
 # 데이터 다운로드 설정 (기간 확장)
