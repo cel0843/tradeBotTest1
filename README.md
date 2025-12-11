@@ -1,13 +1,184 @@
-# 📈 AI Algorithmic Trading System (AI 트레이딩 봇)> **머신러닝(XGBoost)과 딥러닝(LSTM)의 장점을 결합한 하이브리드 주식 매매 예측 시스템**이 프로젝트는 단순한 주식 자동매매 프로그램이 아닙니다. 과거 10년 이상의 방대한 주가 데이터를 분석하여 시장의 패턴을 학습하고, 수학적 확률에 기반하여 **"지금 사야 할까, 관망해야 할까?"**를 판단해 주는 인공지능 파트너입니다.---## 📚 목차 (Table of Contents)이 문서는 프로젝트의 모든 내용을 상세하게 다룹니다. 원하는 항목을 클릭하여 이동하세요.1.  [🔍 프로젝트 소개 (Overview)](#-프로젝트-소개-overview)    *   [이 프로젝트는 무엇인가요?](#이-프로젝트는-무엇인가요)    *   [어떤 원리로 작동하나요?](#어떤-원리로-작동하나요)2.  [🧠 AI 모델 및 기술 분석 (AI Architecture)](#-ai-모델-및-기술-분석-ai-architecture)    *   [사용된 AI 모델 (ML vs DL)](#사용된-ai-모델-ml-vs-dl)    *   [분석하는 데이터 (Features)](#분석하는-데이터-features)3.  [🚀 설치 및 준비 (Installation)](#-설치-및-준비-installation)4.  [📖 사용 가이드 (User Guide)](#-사용-가이드-user-guide)    *   [STEP 1: 분석할 종목 담기](#step-1-분석할-종목-담기)    *   [STEP 2: AI 학습 시키기](#step-2-ai-학습-시키기)    *   [STEP 3: 매매 신호 확인하기](#step-3-매매-신호-확인하기)5.  [📊 결과 해석 방법 (How to Read Outputs)](#-결과-해석-방법-how-to-read-outputs)    *   [출력 메시지 상세 분석](#출력-메시지-상세-분석)    *   [확률(Probability)의 의미](#확률probability의-의미)6.  [📂 소스 코드 구조 (Code Structure)](#-소스-코드-구조-code-structure)7.  [⚠️ 면책 조항 (Disclaimer)](#-면책-조항-disclaimer)---## 🔍 프로젝트 소개 (Overview)### 이 프로젝트는 무엇인가요?주식 시장에는 수많은 보조지표(이동평균선, RSI, MACD 등)가 존재합니다. 사람은 이 모든 지표를 동시에 보고 판단하기 어렵지만, AI는 가능합니다.이 시스템은 **수십 개의 기술적 지표를 동시에 분석**하여, 인간의 감정을 배제하고 오직 **데이터와 확률**에 기반한 매매 신호를 제공합니다.### 어떤 원리로 작동하나요?1.  **데이터 수집**: Yahoo Finance 서버에서 전 세계 주식 데이터를 실시간으로 가져옵니다.2.  **가공 (Feature Engineering)**: 원본 데이터(시가, 고가, 저가, 종가)를 AI가 이해할 수 있는 형태(보조지표)로 변환합니다.3.  **학습 (Training)**: 과거 데이터를 통해 "이런 패턴일 때 주가가 올랐다/내렸다"는 규칙을 스스로 찾아냅니다.4.  **예측 (Prediction)**: 학습된 규칙을 현재 시장에 대입하여 내일의 주가 방향을 예측합니다.---## 🧠 AI 모델 및 기술 분석 (AI Architecture)이 프로젝트는 정확도를 높이기 위해 두 가지 다른 성격의 AI 모델을 함께 사용하는 **앙상블(Ensemble)** 기법을 사용합니다.### 사용된 AI 모델 (ML vs DL)| 모델 이름 | 종류 | 역할 및 특징 || :--- | :--- | :--- || **XGBoost** | **머신러닝 (Machine Learning)** | • **정형 데이터 분석의 최강자**입니다.<br>• 수치화된 보조지표(RSI가 70 이상인가? 등)를 분석하여 상승/하락을 분류합니다.<br>• "어떤 지표가 중요한지"를 잘 파악합니다. || **LSTM** | **딥러닝 (Deep Learning)** | • **시계열(시간의 흐름) 분석**에 특화된 인공신경망입니다.<br>• 차트의 흐름, 추세, 패턴과 같은 "맥락"을 이해합니다.<br>• PyTorch 프레임워크를 사용하여 구현되었습니다. |> **왜 두 개를 다 쓰나요?**  > XGBoost는 수치 계산에 강하고, LSTM은 흐름 파악에 강합니다. 두 모델이 서로의 단점을 보완하여 더 신뢰할 수 있는 예측을 만들어냅니다.### 분석하는 데이터 (Features)AI는 단순히 가격만 보지 않습니다. 다음과 같은 20여 가지의 고급 지표를 계산하여 판단 근거로 삼습니다.*   **추세 지표**: 이동평균선(MA), MACD, 볼린저 밴드 (현재 추세가 상승인지 하락인지 판단)*   **모멘텀 지표**: RSI, 스토캐스틱 (현재 주가가 과매수/과매도 상태인지 판단)*   **변동성 지표**: ATR (시장이 얼마나 불안정한지 판단)*   **거래량 지표**: 거래량 이동평균 (세력의 개입 여부 판단)---## 🚀 설치 및 준비 (Installation)이 프로젝트를 내 컴퓨터에서 실행하기 위한 기초 단계입니다.1.  **프로젝트 다운로드**    ```bash    git clone https://github.com/cel0843/tradeBotTest1.git    cd tradeBotTest1    ```2.  **가상환경 생성 및 라이브러리 설치**    ```bash    # 가상환경 생성    python -m venv .venv        # 가상환경 활성화 (Windows)    .venv\Scripts\activate        # 필수 패키지 설치 (PyTorch, XGBoost, yfinance 등)    pip install -r requirements.txt    ```---## 📖 사용 가이드 (User Guide)### STEP 1: 분석할 종목 담기어떤 주식을 분석할지 설정합니다. `src/config.py` 파일을 열어 수정하세요.```python# src/config.py 파일 내용DEFAULT_SYMBOLS = [    "AAPL", "MSFT", "NVDA",  # 미국 기술주    "SPY", "QQQ",            # ETF    "ORCL", "TSLA"           # 추가하고 싶은 종목 (티커 입력)]```### STEP 2: AI 학습 시키기설정한 종목들에 대해 AI를 학습시킵니다. 이 명령어 한 줄이면 데이터 다운로드부터 모델 저장까지 자동으로 수행됩니다.**명령어:**```bashpython -m src.model_train```**실행 시 일어나는 일:**1.  인터넷에서 최신 주가 데이터를 받아옵니다.2.  XGBoost와 LSTM 모델이 과거 10년 치 데이터를 공부합니다.3.  공부가 끝나면 `models/` 폴더에 지능(모델 파일)을 저장합니다.### STEP 3: 매매 신호 확인하기학습된 모델을 깨워서 "오늘 살까 말까?"를 물어봅니다.**명령어:**```bashpython -m src.model_predict```---## 📊 결과 해석 방법 (How to Read Outputs)`src.model_predict` 명령어를 실행하면 아래와 같은 표가 출력됩니다. 이 표를 해석하는 방법입니다.### 출력 예시```text[매수 추천 종목 (확률순)]symbol      close  probability  NVDA 183.779999     0.699147  AAPL 278.779999     0.586623```### 출력 메시지 상세 분석1.  **symbol (종목명)**: 분석한 주식의 티커입니다.2.  **close (현재가)**: 가장 최근(오늘)의 종가입니다.3.  **signal (신호)**:    *   🟢 **LONG**: **"매수(Buy)"** 신호입니다. AI가 상승할 확률이 높다고 판단했습니다.    *   ⚪ **FLAT**: **"관망(Hold/Wait)"** 신호입니다. 상승 확률이 낮거나 불확실하니 지켜보라는 뜻입니다.4.  **probability (상승 확률)**:    *   AI가 예측한 **"내일 주가가 오를 확률"**입니다.    *   **0 ~ 1 사이의 값**으로 표시됩니다.    *   **0.5 (50%) 이상**: 상승 가능성이 높음    *   **0.5 (50%) 미만**: 하락 가능성이 높음    *   *예시: 0.699147은 약 69.9%의 확률로 상승을 예측한다는 뜻입니다.*---## 📂 소스 코드 구조 (Code Structure)개발자나 코드를 수정하고 싶은 분들을 위한 파일 설명입니다.*   `src/`    *   `config.py`: **[설정]** 종목 리스트, 학습 기간, 모델 파라미터 등을 관리합니다.    *   `data_loader.py`: **[수집]** Yahoo Finance에서 데이터를 다운로드하고 캐싱합니다.    *   `features.py`: **[가공]** 주가 데이터에서 보조지표(RSI, MACD 등)를 계산합니다.
-    *   `model_train.py`: **[학습]** 데이터를 불러와 AI 모델을 학습시키고 저장하는 핵심 파일입니다.
-    *   `model_predict.py`: **[예측]** 저장된 모델을 불러와 실제 매매 신호를 생성합니다.
-    *   `backtest.py`: **[검증]** 과거 데이터로 모의 투자를 진행하여 수익률을 테스트합니다.
-*   `models/`: 학습이 완료된 모델 파일(`*.pkl`, `*.pth`)이 저장되는 폴더입니다.
+# 📈 AI Algorithmic Trading System (AI 트레이딩 봇)![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)![XGBoost](https://img.shields.io/badge/XGBoost-FLAT-green?style=for-the-badge)![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)> **"데이터는 거짓말을 하지 않습니다."**  > 머신러닝(XGBoost)과 딥러닝(LSTM)의 강력한 앙상블로 시장의 흐름을 읽어내는 차세대 트레이딩 시스템입니다.---## 📑 목차 (Table of Contents)1. [🔍 프로젝트 개요 (Overview)](#-프로젝트-개요-overview)2. [🏗️ 시스템 아키텍처 (Architecture)](#-시스템-아키텍처-architecture)
+3. [🧠 핵심 기술 및 알고리즘 (Core Technology)](#-핵심-기술-및-알고리즘-core-technology)
+4. [🛠️ 설치 및 환경 설정 (Installation)](#-설치-및-환경-설정-installation)
+5. [💻 사용 가이드 (User Guide)](#-사용-가이드-user-guide)
+6. [📊 분석 지표 상세 (Technical Indicators)](#-분석-지표-상세-technical-indicators)
+7. [📂 디렉토리 구조 (Directory Structure)](#-디렉토리-구조-directory-structure)
+8. [⚠️ 주의사항 (Disclaimer)](#-주의사항-disclaimer)
 
 ---
 
-## ⚠️ 면책 조항 (Disclaimer)
+## 🔍 프로젝트 개요 (Overview)
 
-*   본 소프트웨어는 투자를 돕기 위한 **분석 도구**일 뿐입니다.
-*   AI의 예측은 100% 정확할 수 없으며, 시장의 돌발 변수(뉴스, 전쟁 등)는 반영하지 못할 수 있습니다.
-*   **투자의 책임은 전적으로 사용자 본인에게 있습니다.** 실제 자금을 투입하기 전에 충분히 테스트하고 신중하게 결정하시기 바랍니다.
+이 프로젝트는 주식 시장의 방대한 데이터를 인간이 아닌 **AI의 시각**으로 분석합니다.  
+감정에 휘둘리는 매매를 멈추고, **수학적 확률**에 기반한 냉철한 트레이딩을 지원하기 위해 개발되었습니다.
+
+### 🎯 주요 목표
+- **자동화**: 데이터 수집부터 분석, 예측까지 원클릭으로 수행
+- **객관성**: 20여 가지 기술적 지표를 통한 정량적 분석
+- **정확성**: 서로 다른 장점을 가진 두 가지 AI 모델(XGBoost + LSTM)의 교차 검증
+
+---
+
+## 🏗️ 시스템 아키텍처 (Architecture)
+
+데이터가 어떻게 흐르고 처리되는지 보여주는 전체 구조도입니다.
+
+```mermaid
+graph LR
+    A[Yahoo Finance] -->|Raw Data| B(Data Loader)
+    B -->|OHLCV| C{Feature Engineering}
+    C -->|Technical Indicators| D[XGBoost Model]
+    C -->|Time Series Data| E[LSTM Model]
+    D -->|Probability| F[Ensemble Logic]
+    E -->|Probability| F
+    F -->|Final Signal| G[Trading Decision]
+```
+
+1.  **Data Loader**: 야후 파이낸스 서버에서 실시간 주가 데이터를 수집하고 로컬에 캐싱합니다.
+2.  **Feature Engineering**: 원본 데이터를 가공하여 AI가 학습할 수 있는 보조지표를 생성합니다.
+3.  **Model Training**: 두 개의 모델이 독립적으로 학습을 수행합니다.
+4.  **Ensemble Prediction**: 두 모델의 예측 결과를 종합하여 최종 매매 신호를 생성합니다.
+
+---
+
+## 🧠 핵심 기술 및 알고리즘 (Core Technology)
+
+### 1. Hybrid AI Model (앙상블 모델)
+
+| 모델 (Model) | 역할 (Role) | 특징 (Characteristics) |
+| :--- | :--- | :--- |
+| **XGBoost** | **정형 데이터 분석** | • 트리 기반의 부스팅 알고리즘<br>• 과적합 방지 및 피처 중요도 산출에 탁월<br>• "현재 지표 상태"를 보고 상승/하락 분류 |
+| **LSTM** | **시계열 패턴 분석** | • 순환 신경망(RNN)의 일종<br>• 긴 기간의 데이터 흐름(Context)을 기억<br>• "차트의 모양과 추세"를 보고 미래 예측 |
+
+### 2. Smart Data Pipeline
+- **자동 결측치 처리**: 데이터가 비어있는 구간을 자동으로 보정합니다.
+- **정규화 (Scaling)**: 서로 다른 단위의 지표들을 0~1 사이로 변환하여 AI 학습 효율을 높입니다.
+- **윈도우 슬라이딩**: 시계열 데이터를 학습 가능한 시퀀스 형태로 자동 변환합니다.
+
+---
+
+## 🛠️ 설치 및 환경 설정 (Installation)
+
+### 1. 필수 요구사항
+- OS: Windows, macOS, Linux
+- Python: 3.8 이상
+- Git
+
+### 2. 설치 명령어
+터미널(CMD, PowerShell)을 열고 아래 명령어를 한 줄씩 입력하세요.
+
+```bash
+# 1. 프로젝트 다운로드 (Clone)
+git clone https://github.com/cel0843/tradeBotTest1.git
+cd tradeBotTest1
+
+# 2. 가상환경 생성 (권장)
+# 프로젝트 격리를 위해 가상환경을 만드는 것이 좋습니다.
+python -m venv .venv
+
+# 3. 가상환경 활성화
+# Windows:
+.venv\Scripts\activate
+# Mac/Linux:
+# source .venv/bin/activate
+
+# 4. 라이브러리 설치
+# 학습에 필요한 모든 패키지를 한 번에 설치합니다.
+pip install -r requirements.txt
+```
+
+---
+
+## 💻 사용 가이드 (User Guide)
+
+### STEP 1: 분석 대상 종목 설정
+`src/config.py` 파일을 열어 `DEFAULT_SYMBOLS` 리스트를 수정합니다.
+
+```python
+# src/config.py
+
+DEFAULT_SYMBOLS = [
+    "AAPL", "MSFT", "NVDA",  # 기술주
+    "SPY", "QQQ",            # 지수 ETF
+    "BTC-USD",               # 암호화폐도 가능 (야후 파이낸스 티커 기준)
+    "005930.KS"              # 한국 주식 (삼성전자) 예시
+]
+```
+
+### STEP 2: AI 모델 학습 (Training)
+설정된 종목의 과거 데이터를 학습시킵니다.
+
+```bash
+python -m src.model_train
+```
+> **Tip**: 학습이 완료되면 `models/` 폴더에 `.pkl` (XGBoost) 및 `.pth` (LSTM) 파일이 생성됩니다.
+
+### STEP 3: 매매 신호 예측 (Prediction)
+오늘 장이 열리면(혹은 닫힌 후) 매매 신호를 확인합니다.
+
+```bash
+python -m src.model_predict
+```
+
+#### 🖥️ 실행 결과 예시
+```text
+[매수 추천 종목 (확률순)]
+symbol      close  probability
+  NVDA 183.779999     0.699147  <-- 🔥 강력 매수 신호 (확률 약 70%)
+  AAPL 278.779999     0.586623  <-- 👍 매수 신호 (확률 약 59%)
+  MSFT 478.559998     0.564683  <-- 👍 매수 신호 (확률 약 56%)
+```
+- **Probability**: AI가 예측한 상승 확률입니다. 0.5(50%)를 넘으면 상승을 예측한 것입니다.
+
+---
+
+## 📊 분석 지표 상세 (Technical Indicators)
+
+AI가 학습에 사용하는 20여 가지의 보조지표 목록입니다.
+
+| 카테고리 | 지표 이름 | 설명 |
+| :--- | :--- | :--- |
+| **추세 (Trend)** | **MA (Moving Average)** | 5일, 20일, 60일 이동평균선 |
+| | **MACD** | 장단기 이동평균 수렴/확산 지수 |
+| | **Bollinger Bands** | 주가의 변동폭을 나타내는 밴드 (상단/하단) |
+| **모멘텀 (Momentum)** | **RSI** | 상대강도지수 (과매수/과매도 판단) |
+| | **Stochastic** | 주가의 현재 위치를 백분율로 표시 |
+| **변동성 (Volatility)** | **ATR** | 평균 진폭 (시장의 변동성 크기) |
+| | **Volatility** | 주가 수익률의 표준편차 |
+| **거래량 (Volume)** | **Volume MA** | 거래량 이동평균 |
+| | **Volume Ratio** | 전일 대비 거래량 변화율 |
+
+---
+
+## 📂 디렉토리 구조 (Directory Structure)
+
+```text
+tradeBot/
+├── 📁 data/              # [자동생성] 수집된 주가 데이터가 저장되는 캐시 폴더
+├── 📁 models/            # [자동생성] 학습된 AI 모델 파일이 저장되는 폴더
+├── 📁 src/               # 소스 코드 메인 디렉토리
+│   ├── 📄 config.py      # [설정] 종목, 기간, 하이퍼파라미터 설정
+│   ├── 📄 data_loader.py # [데이터] 야후 파이낸스 데이터 수집기
+│   ├── 📄 features.py    # [전처리] 기술적 지표 계산 로직
+│   ├── 📄 model_train.py # [학습] 모델 학습 및 저장 실행 파일
+│   ├── 📄 model_predict.py # [예측] 매매 신호 생성 실행 파일
+│   └── 📄 backtest.py    # [검증] 수익률 시뮬레이션 도구
+├── 📄 .gitignore         # Git 제외 파일 목록
+├── 📄 requirements.txt   # 의존성 패키지 목록
+└── 📄 README.md          # 프로젝트 설명서
+```
+
+---
+
+## ⚠️ 주의사항 (Disclaimer)
+
+1.  **투자 책임**: 본 시스템이 제공하는 정보는 투자를 위한 참고 자료일 뿐이며, 투자의 최종 책임은 사용자 본인에게 있습니다.
+2.  **데이터 지연**: 무료 API(Yahoo Finance)를 사용하므로 실시간 데이터에 약간의 지연이 있을 수 있습니다.
+3.  **과적합 주의**: 과거의 수익률이 미래의 수익을 보장하지 않습니다.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by AI Developer</sub>
+</div>
