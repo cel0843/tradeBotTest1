@@ -1,4 +1,5 @@
-# 📈 AI Algorithmic Trading System (AI 트레이딩 봇)![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)![XGBoost](https://img.shields.io/badge/XGBoost-FLAT-green?style=for-the-badge)![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)> **"데이터는 거짓말을 하지 않습니다."**  > 머신러닝(XGBoost)과 딥러닝(LSTM)의 강력한 앙상블로 시장의 흐름을 읽어내는 차세대 트레이딩 시스템입니다.---## 📑 목차 (Table of Contents)1. [🔍 프로젝트 개요 (Overview)](#-프로젝트-개요-overview)2. [🏗️ 시스템 아키텍처 (Architecture)](#-시스템-아키텍처-architecture)
+# 📈 AI Algorithmic Trading System (AI 트레이딩 봇)![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)![XGBoost](https://img.shields.io/badge/XGBoost-FLAT-green?style=for-the-badge)![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)> **"데이터는 거짓말을 하지 않습니다."** > 머신러닝(XGBoost)과 딥러닝(LSTM)의 강력한 앙상블로 시장의 흐름을 읽어내는 차세대 트레이딩 시스템입니다.---## 📑 목차 (Table of Contents)1. [🔍 프로젝트 개요 (Overview)](#-프로젝트-개요-overview)2. [🏗️ 시스템 아키텍처 (Architecture)](#-시스템-아키텍처-architecture)
+
 3. [🧠 핵심 기술 및 알고리즘 (Core Technology)](#-핵심-기술-및-알고리즘-core-technology)
 4. [🛠️ 설치 및 환경 설정 (Installation)](#-설치-및-환경-설정-installation)
 5. [💻 사용 가이드 (User Guide)](#-사용-가이드-user-guide)
@@ -14,6 +15,7 @@
 감정에 휘둘리는 매매를 멈추고, **수학적 확률**에 기반한 냉철한 트레이딩을 지원하기 위해 개발되었습니다.
 
 ### 🎯 주요 목표
+
 - **자동화**: 데이터 수집부터 분석, 예측까지 원클릭으로 수행
 - **객관성**: 20여 가지 기술적 지표를 통한 정량적 분석
 - **정확성**: 서로 다른 장점을 가진 두 가지 AI 모델(XGBoost + LSTM)의 교차 검증
@@ -46,12 +48,13 @@ graph LR
 
 ### 1. Hybrid AI Model (앙상블 모델)
 
-| 모델 (Model) | 역할 (Role) | 특징 (Characteristics) |
-| :--- | :--- | :--- |
-| **XGBoost** | **정형 데이터 분석** | • 트리 기반의 부스팅 알고리즘<br>• 과적합 방지 및 피처 중요도 산출에 탁월<br>• "현재 지표 상태"를 보고 상승/하락 분류 |
-| **LSTM** | **시계열 패턴 분석** | • 순환 신경망(RNN)의 일종<br>• 긴 기간의 데이터 흐름(Context)을 기억<br>• "차트의 모양과 추세"를 보고 미래 예측 |
+| 모델 (Model) | 역할 (Role)          | 특징 (Characteristics)                                                                                                |
+| :----------- | :------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **XGBoost**  | **정형 데이터 분석** | • 트리 기반의 부스팅 알고리즘<br>• 과적합 방지 및 피처 중요도 산출에 탁월<br>• "현재 지표 상태"를 보고 상승/하락 분류 |
+| **LSTM**     | **시계열 패턴 분석** | • 순환 신경망(RNN)의 일종<br>• 긴 기간의 데이터 흐름(Context)을 기억<br>• "차트의 모양과 추세"를 보고 미래 예측       |
 
 ### 2. Smart Data Pipeline
+
 - **자동 결측치 처리**: 데이터가 비어있는 구간을 자동으로 보정합니다.
 - **정규화 (Scaling)**: 서로 다른 단위의 지표들을 0~1 사이로 변환하여 AI 학습 효율을 높입니다.
 - **윈도우 슬라이딩**: 시계열 데이터를 학습 가능한 시퀀스 형태로 자동 변환합니다.
@@ -61,11 +64,13 @@ graph LR
 ## 🛠️ 설치 및 환경 설정 (Installation)
 
 ### 1. 필수 요구사항
+
 - OS: Windows, macOS, Linux
 - Python: 3.8 이상
 - Git
 
 ### 2. 설치 명령어
+
 터미널(CMD, PowerShell)을 열고 아래 명령어를 한 줄씩 입력하세요.
 
 ```bash
@@ -93,6 +98,7 @@ pip install -r requirements.txt
 ## 💻 사용 가이드 (User Guide)
 
 ### STEP 1: 분석 대상 종목 설정
+
 `src/config.py` 파일을 열어 `DEFAULT_SYMBOLS` 리스트를 수정합니다.
 
 ```python
@@ -107,14 +113,17 @@ DEFAULT_SYMBOLS = [
 ```
 
 ### STEP 2: AI 모델 학습 (Training)
+
 설정된 종목의 과거 데이터를 학습시킵니다.
 
 ```bash
 python -m src.model_train
 ```
+
 > **Tip**: 학습이 완료되면 `models/` 폴더에 `.pkl` (XGBoost) 및 `.pth` (LSTM) 파일이 생성됩니다.
 
 ### STEP 3: 매매 신호 예측 (Prediction)
+
 오늘 장이 열리면(혹은 닫힌 후) 매매 신호를 확인합니다.
 
 ```bash
@@ -122,6 +131,7 @@ python -m src.model_predict
 ```
 
 #### 🖥️ 실행 결과 예시
+
 ```text
 [매수 추천 종목 (확률순)]
 symbol      close  probability
@@ -129,6 +139,7 @@ symbol      close  probability
   AAPL 278.779999     0.586623  <-- 👍 매수 신호 (확률 약 59%)
   MSFT 478.559998     0.564683  <-- 👍 매수 신호 (확률 약 56%)
 ```
+
 - **Probability**: AI가 예측한 상승 확률입니다. 0.5(50%)를 넘으면 상승을 예측한 것입니다.
 
 ---
@@ -137,17 +148,17 @@ symbol      close  probability
 
 AI가 학습에 사용하는 20여 가지의 보조지표 목록입니다.
 
-| 카테고리 | 지표 이름 | 설명 |
-| :--- | :--- | :--- |
-| **추세 (Trend)** | **MA (Moving Average)** | 5일, 20일, 60일 이동평균선 |
-| | **MACD** | 장단기 이동평균 수렴/확산 지수 |
-| | **Bollinger Bands** | 주가의 변동폭을 나타내는 밴드 (상단/하단) |
-| **모멘텀 (Momentum)** | **RSI** | 상대강도지수 (과매수/과매도 판단) |
-| | **Stochastic** | 주가의 현재 위치를 백분율로 표시 |
-| **변동성 (Volatility)** | **ATR** | 평균 진폭 (시장의 변동성 크기) |
-| | **Volatility** | 주가 수익률의 표준편차 |
-| **거래량 (Volume)** | **Volume MA** | 거래량 이동평균 |
-| | **Volume Ratio** | 전일 대비 거래량 변화율 |
+| 카테고리                | 지표 이름               | 설명                                      |
+| :---------------------- | :---------------------- | :---------------------------------------- |
+| **추세 (Trend)**        | **MA (Moving Average)** | 5일, 20일, 60일 이동평균선                |
+|                         | **MACD**                | 장단기 이동평균 수렴/확산 지수            |
+|                         | **Bollinger Bands**     | 주가의 변동폭을 나타내는 밴드 (상단/하단) |
+| **모멘텀 (Momentum)**   | **RSI**                 | 상대강도지수 (과매수/과매도 판단)         |
+|                         | **Stochastic**          | 주가의 현재 위치를 백분율로 표시          |
+| **변동성 (Volatility)** | **ATR**                 | 평균 진폭 (시장의 변동성 크기)            |
+|                         | **Volatility**          | 주가 수익률의 표준편차                    |
+| **거래량 (Volume)**     | **Volume MA**           | 거래량 이동평균                           |
+|                         | **Volume Ratio**        | 전일 대비 거래량 변화율                   |
 
 ---
 
