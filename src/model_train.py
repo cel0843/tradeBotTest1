@@ -335,36 +335,41 @@ if __name__ == "__main__":
     # 글로벌 시드 설정
     set_global_seed(42)
     
-    print("=== 모델 학습 테스트 ===\n")
+    # 설정에서 심볼 리스트 가져오기
+    try:
+        from src.config import DEFAULT_SYMBOLS
+    except ImportError:
+        from config import DEFAULT_SYMBOLS
+
+    print(f"=== 총 {len(DEFAULT_SYMBOLS)}개 종목에 대한 모델 학습 시작 ===\n")
+    print(f"대상 종목: {', '.join(DEFAULT_SYMBOLS)}\n")
     
-    # XGBoost 모델 학습
-    symbol = "AAPL"
-    model, scaler, features = train_xgb_for_symbol(
-        symbol=symbol,
-        start=DATA_START,
-        end=DATA_END,
-        verbose=True
-    )
-    
-    print(f"\n{'='*60}")
-    print("XGBoost 학습 완료!")
-    print(f"{'='*60}")
-    
-    # PyTorch가 사용 가능한 경우 LSTM 학습 (선택 사항)
-    if TORCH_AVAILABLE:
-        print("\n\nLSTM 모델 학습 (선택 사항)...")
+    for symbol in DEFAULT_SYMBOLS:
         try:
-            lstm_model, lstm_scaler, lstm_features = train_lstm_for_symbol(
+            print(f"\n>> [{symbol}] 학습 진행 중...")
+            
+            # XGBoost 모델 학습
+            train_xgb_for_symbol(
                 symbol=symbol,
                 start=DATA_START,
                 end=DATA_END,
-                window_size=20,
                 verbose=True
             )
-            print(f"\n{'='*60}")
-            print("LSTM 학습 완료!")
-            print(f"{'='*60}")
+            
+            # PyTorch가 사용 가능한 경우 LSTM 학습 (선택 사항)
+            if TORCH_AVAILABLE:
+                train_lstm_for_symbol(
+                    symbol=symbol,
+                    start=DATA_START,
+                    end=DATA_END,
+                    window_size=20,
+                    verbose=True
+                )
+                
         except Exception as e:
-            print(f"LSTM 학습 실패: {e}")
-    else:
-        print("\nLSTM 학습 건너뜀 (PyTorch 사용 불가)")
+            print(f"!! {symbol} 학습 중 오류 발생: {e}")
+            continue
+
+    print(f"\n{'='*60}")
+    print("모든 종목에 대한 학습 프로세스 완료")
+    print(f"{'='*60}")

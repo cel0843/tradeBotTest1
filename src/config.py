@@ -19,11 +19,17 @@ DATA_DIR = PROJECT_ROOT / "data"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-# 기본 트레이딩 심볼
-DEFAULT_SYMBOLS: List[str] = ["AAPL", "MSFT", "GOOGL"]
+# 기본 트레이딩 심볼 (다양한 섹터 및 ETF 포함)
+DEFAULT_SYMBOLS: List[str] = [
+    "AAPL", "MSFT", "GOOGL", "NVDA",  # 기술주
+    "JPM", "BAC",                     # 금융주
+    "JNJ", "PFE",                     # 헬스케어
+    "TSLA", "AMZN",                   # 소비재/자동차
+    "SPY", "QQQ", "GLD"               # ETF (시장, 기술, 금)
+]
 
-# 데이터 다운로드 설정
-DATA_START: str = "2015-01-01"
+# 데이터 다운로드 설정 (기간 확장)
+DATA_START: str = "2010-01-01"
 DATA_END: Optional[str] = None  # None은 오늘까지를 의미
 
 # 모델 학습 파라미터

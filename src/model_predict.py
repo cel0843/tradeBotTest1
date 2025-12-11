@@ -238,43 +238,29 @@ def batch_predict(symbols: list, days: int = 60) -> pd.DataFrame:
 if __name__ == "__main__":
     print("=== 모델 예측 테스트 ===\n")
     
-    symbol = "AAPL"
+    # 설정에서 심볼 리스트 가져오기
+    try:
+        from src.config import DEFAULT_SYMBOLS
+    except ImportError:
+        from config import DEFAULT_SYMBOLS
     
-    # 모델 존재 여부 확인
-    model_path = MODEL_DIR / f"{symbol}_xgb_model.pkl"
+    print(f"대상 종목: {', '.join(DEFAULT_SYMBOLS)}\n")
     
-    if not model_path.exists():
-        print(f"{symbol}에 대한 모델을 찾을 수 없습니다. 먼저 모델을 학습하세요:")
-        print(f"  python src/model_train.py")
+    # 배치 예측 실행
+    print(f"{'='*60}")
+    print("전체 종목 배치 예측")
+    print(f"{'='*60}\n")
+    
+    batch_results = batch_predict(DEFAULT_SYMBOLS, days=60)
+    
+    print("\n[예측 결과 요약]")
+    print(batch_results[['symbol', 'date', 'close', 'signal_name', 'probability']].to_string(index=False))
+    
+    # 매수 추천 종목 필터링
+    buy_recommendations = batch_results[batch_results['signal'] == 1]
+    
+    if not buy_recommendations.empty:
+        print(f"\n\n[매수 추천 종목 (확률순)]")
+        print(buy_recommendations[['symbol', 'close', 'probability']].sort_values('probability', ascending=False).to_string(index=False))
     else:
-        print(f"{symbol} 모델 로드 중...")
-        
-        # 최근 60일에 대한 예측 생성
-        print("\n최근 60일에 대한 예측 생성 중...")
-        result = predict_and_generate_signals(symbol, days=60)
-        
-        print(f"\n예측 결과 형태: {result.shape}")
-        print(f"\n마지막 10개 예측:")
-        print(result.tail(10))
-        
-        # 신호 분포
-        print(f"\n신호 분포:")
-        print(result['signal'].value_counts().sort_index())
-        
-        # 최신 신호
-        print(f"\n{'='*60}")
-        print("최신 신호")
-        print(f"{'='*60}")
-        latest = get_latest_signal(symbol, days=60)
-        for key, value in latest.items():
-            print(f"{key}: {value}")
-        
-        # 배치 예측 테스트
-        print(f"\n{'='*60}")
-        print("배치 예측 테스트")
-        print(f"{'='*60}\n")
-        
-        symbols = ["AAPL"]  # 학습된 모델이 있는 경우 더 많은 심볼 추가 가능
-        batch_results = batch_predict(symbols, days=60)
-        print("\n배치 결과:")
-        print(batch_results.to_string(index=False))
+        print("\n\n현재 매수 추천 종목이 없습니다.")
